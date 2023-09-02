@@ -7,6 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->tableView->setModel(&model);
+    model.setTable("inbox");
+
+    QSqlQuery query;
+    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Stuff text)");
+
+    query.exec("insert into inbox (1, Stuff) values('xxx')");
 }
 
 MainWindow::~MainWindow()
