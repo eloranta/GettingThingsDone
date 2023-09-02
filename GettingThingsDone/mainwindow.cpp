@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->tableView->setModel(&model);
     model.setTable("inbox");
+    model.select();
 }
 
 MainWindow::~MainWindow()
