@@ -35,9 +35,10 @@ void MainWindow::deleteItem()
     QSqlQuery query;
     foreach (QModelIndex index, selectedRows)
     {
-        int row = index.row();
-        qDebug() << row;
-        query.exec("delete from inbox where id=" + QString::number(row));
+        const QAbstractItemModel *model = index.model();
+        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+        qDebug() << id;
+        query.exec("delete from inbox where id=" + QString::number(id));
     }
     model.select();
 }
