@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     model.select();
 
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-
+    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteItem()));
 }
 
 MainWindow::~MainWindow()
@@ -28,3 +28,17 @@ void MainWindow::addItem()
     query.exec("insert into inbox (Stuff) values('')");
     model.select();
 }
+
+void MainWindow::deleteItem()
+{
+    QModelIndexList selectedRows = ui->tableView->selectionModel()->selectedRows();
+    QSqlQuery query;
+    foreach (QModelIndex index, selectedRows)
+    {
+        int row = index.row();
+        qDebug() << row;
+        query.exec("delete from inbox where id=" + QString::number(row));
+    }
+    model.select();
+}
+

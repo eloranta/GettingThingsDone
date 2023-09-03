@@ -21,5 +21,7 @@ private:
     QSqlRelationalTableModel model;
 private slots:
     void addItem();
+    void deleteItem();
 };
+
 #endif // MAINWINDOW_H
