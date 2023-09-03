@@ -19,5 +19,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QSqlRelationalTableModel model;
+private slots:
+    void addItem();
 };
 #endif // MAINWINDOW_H
