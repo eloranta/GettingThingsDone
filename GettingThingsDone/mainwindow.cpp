@@ -5,14 +5,19 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    QSqlQuery query;
-    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Stuff text)");
-
     ui->setupUi(this);
 
+    QSqlQuery query;
+
+    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Stuff text)");
     ui->inBasketTableView->setModel(&inBasketModel);
     inBasketModel.setTable("inbox");
     inBasketModel.select();
+
+    query.exec("create table if not exists todo (Id integer primary key autoincrement, Stuff text)");
+    ui->todoTableView->setModel(&todoModel);
+    todoModel.setTable("todo");
+    todoModel.select();
 
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteItem()));
