@@ -22,6 +22,7 @@ private:
     QSqlTableModel todoModel;
 private slots:
     void addItem();
+    void moveItemToTodo();
     void deleteItem();
 };
 
