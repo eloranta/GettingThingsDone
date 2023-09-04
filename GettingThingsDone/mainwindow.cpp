@@ -19,6 +19,16 @@ MainWindow::MainWindow(QWidget *parent)
     todoModel.setTable("todo");
     todoModel.select();
 
+    query.exec("create table if not exists done (Id integer, Stuff text)");
+    ui->doneTableView->setModel(&doneModel);
+    doneModel.setTable("done");
+    doneModel.select();
+
+    query.exec("create table if not exists trash (Id integer, Stuff text)");
+    ui->trashTableView->setModel(&trashModel);
+    trashModel.setTable("trash");
+    trashModel.select();
+
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
     connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveItemToTodo()));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteItem()));

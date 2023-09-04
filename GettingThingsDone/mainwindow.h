@@ -20,6 +20,8 @@ private:
     Ui::MainWindow *ui;
     QSqlTableModel inBasketModel;
     QSqlTableModel todoModel;
+    QSqlTableModel doneModel;
+    QSqlTableModel trashModel;
 private slots:
     void addItem();
     void moveItemToTodo();
