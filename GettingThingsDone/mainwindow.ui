@@ -28,7 +28,7 @@
         <item row="0" column="0">
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
-           <string>Inbox:</string>
+           <string>INBOX:</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
@@ -71,7 +71,7 @@
                <item>
                 <widget class="QPushButton" name="deleteButton">
                  <property name="text">
-                  <string>Delete</string>
+                  <string>Move to TRASH</string>
                  </property>
                 </widget>
                </item>
@@ -98,7 +98,7 @@
         <item row="1" column="0">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
-           <string>Todo:</string>
+           <string>TODO:</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
@@ -127,14 +127,14 @@
                <item>
                 <widget class="QPushButton" name="addButton_2">
                  <property name="text">
-                  <string>Add</string>
+                  <string>Move to DONE</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="deleteButton_2">
                  <property name="text">
-                  <string>Delete</string>
+                  <string>Move to TRASH</string>
                  </property>
                 </widget>
                </item>
