@@ -18,7 +18,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSqlRelationalTableModel model;
+    QSqlTableModel model;
 private slots:
     void addItem();
     void deleteItem();
