@@ -9,9 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     query.exec("create table if not exists inbox (Id integer primary key autoincrement, Stuff text)");
 
     ui->setupUi(this);
-    ui->tableView->setModel(&model);
-    model.setTable("inbox");
-    model.select();
+
+    ui->inBasketTableView->setModel(&inBasketModel);
+    inBasketModel.setTable("inbox");
+    inBasketModel.select();
 
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteItem()));
@@ -26,12 +27,12 @@ void MainWindow::addItem()
 {
     QSqlQuery query;
     query.exec("insert into inbox (Stuff) values('')");
-    model.select();
+    inBasketModel.select();
 }
 
 void MainWindow::deleteItem()
 {
-    QModelIndexList selectedRows = ui->tableView->selectionModel()->selectedRows();
+    QModelIndexList selectedRows = ui->inBasketTableView->selectionModel()->selectedRows();
     QSqlQuery query;
     foreach (QModelIndex index, selectedRows)
     {
@@ -40,6 +41,6 @@ void MainWindow::deleteItem()
         qDebug() << id;
         query.exec("delete from inbox where id=" + QString::number(id));
     }
-    model.select();
+    inBasketModel.select();
 }
 

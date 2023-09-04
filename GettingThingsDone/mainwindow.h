@@ -18,7 +18,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSqlTableModel model;
+    QSqlTableModel inBasketModel;
+    QSqlTableModel inboxModel;
 private slots:
     void addItem();
     void deleteItem();
