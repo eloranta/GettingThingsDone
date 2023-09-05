@@ -29,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     trashModel.setTable("trash");
     trashModel.select();
 
-    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-    connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveItemToTodo()));
-    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteItem()));
+    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItemToInbox()));
+    connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveItemFromInboxToTodo()));
+    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(moveItemFromInboxToTrash()));
 }
 
 MainWindow::~MainWindow()
@@ -39,14 +39,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addItem()
+void MainWindow::addItemToInbox()
 {
     QSqlQuery query;
     query.exec("insert into inbox (Stuff) values('')");
     inBasketModel.select();
 }
 
-void MainWindow::moveItemToTodo()
+void MainWindow::moveItemFromInboxToTodo()
 {
     QModelIndexList selectedRows = ui->inBasketTableView->selectionModel()->selectedRows();
     QSqlQuery query;
@@ -63,7 +63,7 @@ void MainWindow::moveItemToTodo()
     todoModel.select();
 }
 
-void MainWindow::deleteItem()
+void MainWindow::moveItemFromInboxToTrash()
 {
     QModelIndexList selectedRows = ui->inBasketTableView->selectionModel()->selectedRows();
     QSqlQuery query;
