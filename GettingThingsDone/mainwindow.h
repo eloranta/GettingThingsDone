@@ -23,9 +23,9 @@ private:
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
 private slots:
-    void addItemToInbox();
-    void moveItemFromInboxToTodo();
-    void moveItemFromInboxToTrash();
+    void addToInbox();
+    void moveFromInboxToTodo();
+    void moveItemInboxToTrash();
 };
 
 #endif // MAINWINDOW_H
