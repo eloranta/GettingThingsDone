@@ -26,6 +26,7 @@ private slots:
     void addToInbox();
     void moveFromInboxToTodo();
     void moveFromInboxToTrash();
+    void moveFromTodoToDone();
 };
 
-#endif // MAINWINDOW_H
+#endif

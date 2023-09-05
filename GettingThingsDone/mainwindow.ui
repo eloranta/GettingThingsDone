@@ -125,7 +125,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
-                <widget class="QPushButton" name="addButton_2">
+                <widget class="QPushButton" name="moveToDoneButton">
                  <property name="text">
                   <string>Move to DONE</string>
                  </property>

@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
     connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
+    connect(ui->moveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
 }
 
 MainWindow::~MainWindow()
@@ -78,5 +79,22 @@ void MainWindow::moveFromInboxToTrash()
     }
     inBasketModel.select();
     trashModel.select();
+}
+
+void MainWindow::moveFromTodoToDone()
+{
+    QModelIndexList selectedRows = ui->todoTableView->selectionModel()->selectedRows();
+    QSqlQuery query;
+    foreach (QModelIndex index, selectedRows)
+    {
+        const QAbstractItemModel *model = index.model();
+        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        query.exec("delete from todo where id=" + QString::number(id));
+        qDebug() << id << stuff;
+        query.exec("insert into done (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
+    }
+    todoModel.select();
+    doneModel.select();
 }
 
