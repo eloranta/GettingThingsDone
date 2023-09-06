@@ -278,9 +278,9 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="addButton_4">
+                <widget class="QPushButton" name="deleteAllFromTrash">
                  <property name="text">
-                  <string>DeleteAll</string>
+                  <string>Delete All</string>
                  </property>
                 </widget>
                </item>

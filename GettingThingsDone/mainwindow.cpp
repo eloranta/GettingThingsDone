@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moveToTrash2, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
     connect(ui->moveToTodoButton_3, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
     connect(ui->deleteButton_4, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
+    connect(ui->deleteAllFromTrash, SIGNAL(clicked()), this, SLOT(deleteAllFromTrash()));
 }
 
 MainWindow::~MainWindow()
@@ -152,6 +153,7 @@ void MainWindow::moveFromTrashToTodo()
     todoModel.select();
     trashModel.select();
 }
+
 void MainWindow::deleteFromTrash()
 {
     QModelIndexList selectedRows = ui->trashTableView->selectionModel()->selectedRows();
@@ -160,9 +162,20 @@ void MainWindow::deleteFromTrash()
     {
         const QAbstractItemModel *model = index.model();
         int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
         query.exec("delete from trash where id=" + QString::number(id));
-        qDebug() << id << stuff;
+        qDebug() << id;
+    }
+    trashModel.select();
+}
+void MainWindow::deleteAllFromTrash()
+{
+    QAbstractItemModel *model = ui->trashTableView->model();
+    QSqlQuery query;
+    for (int row = 0; row < model->rowCount(); row++)
+    {
+        int id = model->data(model->index(row, 0), Qt::DisplayRole).toInt();
+        query.exec("delete from trash where id=" + QString::number(id));
+        qDebug() << id;
     }
     trashModel.select();
 }
