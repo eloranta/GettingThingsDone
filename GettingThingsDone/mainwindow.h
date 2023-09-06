@@ -28,6 +28,8 @@ private slots:
     void moveFromInboxToTrash();
     void moveFromTodoToDone();
     void moveFromTodoToTrash();
+    void moveFromDoneToTrash();
+    void moveFromTrashToTodo();
 };
 
 #endif

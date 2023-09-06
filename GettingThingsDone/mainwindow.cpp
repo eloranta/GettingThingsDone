@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
     connect(ui->moveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
     connect(ui->deleteButton_2, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
+    connect(ui->moveToTrash2, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
+    connect(ui->moveToTodoButton_3, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
 }
 
 MainWindow::~MainWindow()
@@ -111,6 +113,40 @@ void MainWindow::moveFromTodoToTrash()
         query.exec("delete from todo where id=" + QString::number(id));
         qDebug() << id << stuff;
         query.exec("insert into trash (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
+    }
+    todoModel.select();
+    trashModel.select();
+}
+
+void MainWindow::moveFromDoneToTrash()
+{
+    QModelIndexList selectedRows = ui->doneTableView->selectionModel()->selectedRows();
+    QSqlQuery query;
+    foreach (QModelIndex index, selectedRows)
+    {
+        const QAbstractItemModel *model = index.model();
+        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        query.exec("delete from done where id=" + QString::number(id));
+        qDebug() << id << stuff;
+        query.exec("insert into trash (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
+    }
+    doneModel.select();
+    trashModel.select();
+}
+
+void MainWindow::moveFromTrashToTodo()
+{
+    QModelIndexList selectedRows = ui->trashTableView->selectionModel()->selectedRows();
+    QSqlQuery query;
+    foreach (QModelIndex index, selectedRows)
+    {
+        const QAbstractItemModel *model = index.model();
+        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        query.exec("delete from trash where id=" + QString::number(id));
+        qDebug() << id << stuff;
+        query.exec("insert into todo (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
     }
     todoModel.select();
     trashModel.select();

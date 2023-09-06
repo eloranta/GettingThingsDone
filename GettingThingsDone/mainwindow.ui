@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -195,23 +195,9 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QPushButton" name="addButton_3">
+                <widget class="QPushButton" name="moveToTrash2">
                  <property name="text">
-                  <string>Add</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="moveToTodoButton_2">
-                 <property name="text">
-                  <string>Move to TODO</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="deleteButton_3">
-                 <property name="text">
-                  <string>Delete</string>
+                  <string>Move to TRASH</string>
                  </property>
                 </widget>
                </item>
@@ -278,13 +264,6 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QPushButton" name="addButton_4">
-                 <property name="text">
-                  <string>Add</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QPushButton" name="moveToTodoButton_3">
                  <property name="text">
                   <string>Move to TODO</string>
@@ -295,6 +274,13 @@
                 <widget class="QPushButton" name="deleteButton_4">
                  <property name="text">
                   <string>Delete</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="addButton_4">
+                 <property name="text">
+                  <string>DeleteAll</string>
                  </property>
                 </widget>
                </item>
