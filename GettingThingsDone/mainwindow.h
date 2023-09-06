@@ -30,6 +30,7 @@ private slots:
     void moveFromTodoToTrash();
     void moveFromDoneToTrash();
     void moveFromTrashToTodo();
+    void deleteFromTrash();
 };
 
 #endif

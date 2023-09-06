@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->deleteButton_2, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
     connect(ui->moveToTrash2, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
     connect(ui->moveToTodoButton_3, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
+    connect(ui->deleteButton_4, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
 }
 
 MainWindow::~MainWindow()
@@ -149,6 +150,20 @@ void MainWindow::moveFromTrashToTodo()
         query.exec("insert into todo (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
     }
     todoModel.select();
+    trashModel.select();
+}
+void MainWindow::deleteFromTrash()
+{
+    QModelIndexList selectedRows = ui->trashTableView->selectionModel()->selectedRows();
+    QSqlQuery query;
+    foreach (QModelIndex index, selectedRows)
+    {
+        const QAbstractItemModel *model = index.model();
+        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        query.exec("delete from trash where id=" + QString::number(id));
+        qDebug() << id << stuff;
+    }
     trashModel.select();
 }
 
