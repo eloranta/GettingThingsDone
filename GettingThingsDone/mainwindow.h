@@ -27,6 +27,7 @@ private slots:
     void moveFromInboxToTodo();
     void moveFromInboxToTrash();
     void moveFromTodoToDone();
+    void moveFromTodoToTrash();
 };
 
 #endif
