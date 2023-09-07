@@ -13,21 +13,25 @@ MainWindow::MainWindow(QWidget *parent)
     ui->inBasketTableView->setModel(&inBasketModel);
     inBasketModel.setTable("inbox");
     inBasketModel.select();
+    ui->inBasketTableView->hideColumn(0);
 
     query.exec("create table if not exists todo (Id integer, Stuff text)");
     ui->todoTableView->setModel(&todoModel);
     todoModel.setTable("todo");
     todoModel.select();
+    ui->todoTableView->hideColumn(0);
 
     query.exec("create table if not exists done (Id integer, Stuff text)");
     ui->doneTableView->setModel(&doneModel);
     doneModel.setTable("done");
     doneModel.select();
+    ui->doneTableView->hideColumn(0);
 
     query.exec("create table if not exists trash (Id integer, Stuff text)");
     ui->trashTableView->setModel(&trashModel);
     trashModel.setTable("trash");
     trashModel.select();
+    ui->trashTableView->hideColumn(0);
 
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
     connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
