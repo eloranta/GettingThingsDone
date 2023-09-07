@@ -67,6 +67,8 @@ void MainWindow::moveFromInboxToTodo()
     }
     inBasketModel.select();
     todoModel.select();
+
+    ui->inBasketTableView->selectRow(0);
 }
 
 void MainWindow::moveFromInboxToTrash()
@@ -84,6 +86,8 @@ void MainWindow::moveFromInboxToTrash()
     }
     inBasketModel.select();
     trashModel.select();
+
+    ui->inBasketTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToDone()
@@ -101,6 +105,8 @@ void MainWindow::moveFromTodoToDone()
     }
     todoModel.select();
     doneModel.select();
+
+    ui->todoTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToTrash()
@@ -118,6 +124,8 @@ void MainWindow::moveFromTodoToTrash()
     }
     todoModel.select();
     trashModel.select();
+
+    ui->todoTableView->selectRow(0);
 }
 
 void MainWindow::moveFromDoneToTrash()
@@ -135,6 +143,8 @@ void MainWindow::moveFromDoneToTrash()
     }
     doneModel.select();
     trashModel.select();
+
+    ui->doneTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTrashToTodo()
@@ -152,6 +162,8 @@ void MainWindow::moveFromTrashToTodo()
     }
     todoModel.select();
     trashModel.select();
+
+    ui->trashTableView->selectRow(0);
 }
 
 void MainWindow::deleteFromTrash()
@@ -166,7 +178,10 @@ void MainWindow::deleteFromTrash()
         qDebug() << id;
     }
     trashModel.select();
+
+    ui->trashTableView->selectRow(0);
 }
+
 void MainWindow::deleteAllFromTrash()
 {
     QAbstractItemModel *model = ui->trashTableView->model();
