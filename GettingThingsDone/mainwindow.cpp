@@ -10,25 +10,24 @@ MainWindow::MainWindow(QWidget *parent)
     QSqlQuery query;
 
     query.exec("create table if not exists inbox (Id integer primary key autoincrement, Date text, Stuff text)");
-    query.exec("insert into inbox (date, Stuff) values(date('now') , '')");
     ui->inBasketTableView->setModel(&inBasketModel);
     inBasketModel.setTable("inbox");
     inBasketModel.select();
     ui->inBasketTableView->hideColumn(0);
 
-    query.exec("create table if not exists todo (Id integer, Stuff text)");
+    query.exec("create table if not exists todo (Id integer, Date text, Stuff text)");
     ui->todoTableView->setModel(&todoModel);
     todoModel.setTable("todo");
     todoModel.select();
     ui->todoTableView->hideColumn(0);
 
-    query.exec("create table if not exists done (Id integer, Stuff text)");
+    query.exec("create table if not exists done (Id integer, Date text, Stuff text)");
     ui->doneTableView->setModel(&doneModel);
     doneModel.setTable("done");
     doneModel.select();
     ui->doneTableView->hideColumn(0);
 
-    query.exec("create table if not exists trash (Id integer, Stuff text)");
+    query.exec("create table if not exists trash (Id integer, Date text, Stuff text)");
     ui->trashTableView->setModel(&trashModel);
     trashModel.setTable("trash");
     trashModel.select();
@@ -53,7 +52,9 @@ MainWindow::~MainWindow()
 void MainWindow::addToInbox()
 {
     QSqlQuery query;
-    query.exec("insert into inbox (date, Stuff) values(GETDATE(), '')");
+    QString s = "insert into inbox (date, Stuff) values(date('now'), '')";
+    qDebug() << s;
+    query.exec(s);
     inBasketModel.select();
 }
 
@@ -65,10 +66,12 @@ void MainWindow::moveFromInboxToTodo()
     {
         const QAbstractItemModel *model = index.model();
         int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString stuff = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
+        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
         query.exec("delete from inbox where id=" + QString::number(id));
-        qDebug() << id << stuff;
-        query.exec("insert into todo (Id, Stuff) values(" + QString::number(id) + ",'" + stuff + "')");
+        QString s = "insert into todo (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
+        qDebug() << s;
+        query.exec(s);
     }
     inBasketModel.select();
     todoModel.select();
