@@ -10,9 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     QSqlQuery query;
 
     query.exec("create table if not exists inbox (Id integer primary key autoincrement, Date text, Stuff text)");
-    ui->inBasketTableView->setModel(&inBasketModel);
     inBasketModel.setTable("inbox");
     inBasketModel.select();
+    ui->inBasketTableView->setModel(&inBasketModel);
     ui->inBasketTableView->hideColumn(0);
 
     query.exec("create table if not exists todo (Id integer, Date text, Stuff text)");
