@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QSqlQuery query;
 
-    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Stuff text)");
+    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Date text, Stuff text)");
+    query.exec("insert into inbox (date, Stuff) values(date('now') , '')");
     ui->inBasketTableView->setModel(&inBasketModel);
     inBasketModel.setTable("inbox");
     inBasketModel.select();
@@ -52,7 +53,7 @@ MainWindow::~MainWindow()
 void MainWindow::addToInbox()
 {
     QSqlQuery query;
-    query.exec("insert into inbox (Stuff) values('')");
+    query.exec("insert into inbox (date, Stuff) values(GETDATE(), '')");
     inBasketModel.select();
 }
 
