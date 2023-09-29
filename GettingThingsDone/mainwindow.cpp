@@ -42,9 +42,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::addToInbox()
 {
-    QSqlQuery query;
-    QString s = "insert into inbox (date, Stuff) values(date('now'), '')";
-    query.exec(s);
+    query.exec("insert into inbox (date, Stuff) values(date('now'), '')");
     inboxModel.select();
 }
 
