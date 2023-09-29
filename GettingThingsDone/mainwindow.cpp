@@ -22,15 +22,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createTable("done",  doneModel, ui->doneTableView);
     createTable("trash", trashModel, ui->trashTableView);
 
-    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
-    connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
-    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
-    connect(ui->moveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
-    connect(ui->deleteButton_2, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
-    connect(ui->moveToTrash2, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
-    connect(ui->moveToTodoButton_3, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
-    connect(ui->deleteButton_4, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
-    connect(ui->deleteAllFromTrash, SIGNAL(clicked()), this, SLOT(deleteAllFromTrash()));
+    connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
+    connect(ui->inboxMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
+    connect(ui->inboxMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
+    connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
+    connect(ui->todoMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
+    connect(ui->doneMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
+    connect(ui->trashMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
+    connect(ui->trashDeleteButton, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
+    connect(ui->trashDeleteAll, SIGNAL(clicked()), this, SLOT(deleteAllFromTrash()));
     connect(ui->upButton, SIGNAL(clicked()), this, SLOT(upButtonClicked()));
     connect(ui->downButton, SIGNAL(clicked()), this, SLOT(downButtonClicked()));
 }
