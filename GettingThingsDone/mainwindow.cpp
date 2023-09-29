@@ -44,28 +44,28 @@ void MainWindow::addToInbox()
 {
     QSqlQuery query;
     QString s = "insert into inbox (date, Stuff) values(date('now'), '')";
-    qDebug() << s;
     query.exec(s);
     inboxModel.select();
 }
 
+int MainWindow::FindSelectedId(QTableView *view)
+{
+    QModelIndexList selectedRows = view->selectionModel()->selectedRows();
+    QModelIndex index = *selectedRows.begin();
+    const QAbstractItemModel *model = index.model();
+    return model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
+}
+
 void MainWindow::moveFromInboxToTodo()
 {
-    QModelIndexList selectedRows = ui->inboxTableView->selectionModel()->selectedRows();
+    int id = FindSelectedId(ui->inboxTableView);
+
     QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from inbox where id=" + QString::number(id));
-        QString s = "insert into todo (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
-    inboxModel.select();
+    query.exec("insert into todo select * from inbox where id = " + QString::number(id));
     todoModel.select();
+
+    query.exec("delete from inbox where id = " + QString::number(id));
+    inboxModel.select();
 
     ui->inboxTableView->selectRow(0);
 }
