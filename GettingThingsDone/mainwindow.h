@@ -18,6 +18,7 @@ public:
     ~MainWindow();
 private:
     Ui::MainWindow *ui;
+    QSqlQuery query;
     QSqlTableModel inboxModel;
     QSqlTableModel todoModel;
     QSqlTableModel doneModel;

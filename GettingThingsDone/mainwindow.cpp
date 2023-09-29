@@ -51,6 +51,8 @@ void MainWindow::addToInbox()
 int MainWindow::FindSelectedId(QTableView *view)
 {
     QModelIndexList selectedRows = view->selectionModel()->selectedRows();
+    if (selectedRows.isEmpty())
+        return -1;
     QModelIndex index = *selectedRows.begin();
     const QAbstractItemModel *model = index.model();
     return model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
@@ -59,8 +61,9 @@ int MainWindow::FindSelectedId(QTableView *view)
 void MainWindow::moveFromInboxToTodo()
 {
     int id = FindSelectedId(ui->inboxTableView);
+    if (id == -1)
+        return;
 
-    QSqlQuery query;
     query.exec("insert into todo select * from inbox where id = " + QString::number(id));
     todoModel.select();
 
