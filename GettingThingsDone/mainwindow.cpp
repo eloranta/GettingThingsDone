@@ -9,7 +9,6 @@ bool MainWindow::createTable(const QString &table, QSqlTableModel& model, QTable
     model.setTable(table);
     model.select();
     view->setModel(&model);
-    view->hideColumn(0);
     return true;
 }
 
