@@ -12,7 +12,7 @@ bool openDatabase(const QString& name)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    if (!openDatabase("Spots.sqlite"))
+    if (!openDatabase("gtd.sqlite"))
     {
         qDebug() << "Cannot open database";
         return -1;
