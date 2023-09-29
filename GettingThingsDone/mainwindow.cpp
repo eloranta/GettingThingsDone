@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moveToTodoButton_3, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
     connect(ui->deleteButton_4, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
     connect(ui->deleteAllFromTrash, SIGNAL(clicked()), this, SLOT(deleteAllFromTrash()));
+    connect(ui->upButton, SIGNAL(clicked()), this, SLOT(upButtonClicked()));
+    connect(ui->downButton, SIGNAL(clicked()), this, SLOT(downButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -213,3 +215,12 @@ void MainWindow::deleteAllFromTrash()
     trashModel.select();
 }
 
+void MainWindow::upButtonClicked()
+{
+
+}
+
+void MainWindow::downButtonClicked()
+{
+
+}
