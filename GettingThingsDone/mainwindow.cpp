@@ -75,104 +75,75 @@ void MainWindow::moveFromInboxToTodo()
 
 void MainWindow::moveFromInboxToTrash()
 {
-    QModelIndexList selectedRows = ui->inboxTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from inbox where id=" + QString::number(id));
-        QString s = "insert into trash (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
-    inboxModel.select();
+    int id = FindSelectedId(ui->inboxTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into trash select * from inbox where id = " + QString::number(id));
     trashModel.select();
+
+    query.exec("delete from inbox where id = " + QString::number(id));
+    inboxModel.select();
 
     ui->inboxTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToDone()
 {
-    QModelIndexList selectedRows = ui->todoTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from todo where id=" + QString::number(id));
-        QString s = "insert into done (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
-    todoModel.select();
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into done select * from todo where id = " + QString::number(id));
     doneModel.select();
+
+    query.exec("delete from todo where id = " + QString::number(id));
+    todoModel.select();
 
     ui->todoTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToTrash()
 {
-    QModelIndexList selectedRows = ui->todoTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from todo where id=" + QString::number(id));
-        QString s = "insert into trash (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
-    todoModel.select();
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into trash select * from todo where id = " + QString::number(id));
     trashModel.select();
 
+    query.exec("delete from todo where id = " + QString::number(id));
+    todoModel.select();
+
     ui->todoTableView->selectRow(0);
+
 }
 
 void MainWindow::moveFromDoneToTrash()
 {
-    QModelIndexList selectedRows = ui->doneTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from done where id=" + QString::number(id));
-        QString s = "insert into trash (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
-    doneModel.select();
+    int id = FindSelectedId(ui->doneTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into trash select * from done where id = " + QString::number(id));
     trashModel.select();
+
+    query.exec("delete from done where id = " + QString::number(id));
+    doneModel.select();
 
     ui->doneTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTrashToTodo()
 {
-    QModelIndexList selectedRows = ui->trashTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        QString date = model->data(model->index(index.row(), 1), Qt::DisplayRole).toString();
-        QString stuff = model->data(model->index(index.row(), 2), Qt::DisplayRole).toString();
-        query.exec("delete from trash where id=" + QString::number(id));
-        QString s = "insert into todo (Id, Date, Stuff) values("+ QString::number(id) + ", '" + date + "', '" + stuff + "')";
-        qDebug() << s;
-        query.exec(s);
-    }
+    int id = FindSelectedId(ui->trashTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into todo select * from trash where id = " + QString::number(id));
     todoModel.select();
+
+    query.exec("delete from trash where id = " + QString::number(id));
     trashModel.select();
 
     ui->trashTableView->selectRow(0);
@@ -180,15 +151,11 @@ void MainWindow::moveFromTrashToTodo()
 
 void MainWindow::deleteFromTrash()
 {
-    QModelIndexList selectedRows = ui->trashTableView->selectionModel()->selectedRows();
-    QSqlQuery query;
-    foreach (QModelIndex index, selectedRows)
-    {
-        const QAbstractItemModel *model = index.model();
-        int id = model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-        query.exec("delete from trash where id=" + QString::number(id));
-        qDebug() << id;
-    }
+    int id = FindSelectedId(ui->trashTableView);
+    if (id == -1)
+        return;
+
+    query.exec("delete from trash where id = " + QString::number(id));
     trashModel.select();
 
     ui->trashTableView->selectRow(0);
@@ -196,14 +163,7 @@ void MainWindow::deleteFromTrash()
 
 void MainWindow::deleteAllFromTrash()
 {
-    QAbstractItemModel *model = ui->trashTableView->model();
-    QSqlQuery query;
-    for (int row = 0; row < model->rowCount(); row++)
-    {
-        int id = model->data(model->index(row, 0), Qt::DisplayRole).toInt();
-        query.exec("delete from trash where id=" + QString::number(id));
-        qDebug() << id;
-    }
+    query.exec("delete from trash");
     trashModel.select();
 }
 
