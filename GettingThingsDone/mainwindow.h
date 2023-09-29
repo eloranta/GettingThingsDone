@@ -8,20 +8,21 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class QTableView;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
-    QSqlTableModel inBasketModel;
+    QSqlTableModel inboxModel;
     QSqlTableModel todoModel;
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
+    bool createTable(const QString &table, QSqlTableModel& model, QTableView *view);
 private slots:
     void addToInbox();
     void moveFromInboxToTodo();

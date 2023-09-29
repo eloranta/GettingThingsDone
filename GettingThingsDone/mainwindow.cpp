@@ -1,37 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+bool MainWindow::createTable(const QString &table, QSqlTableModel& model, QTableView *view)
+{
+    QSqlQuery query;
+    if (!query.exec("create table if not exists " + table + " (Id integer primary key autoincrement, Date text, Stuff text)"))
+       return false;
+    model.setTable(table);
+    model.select();
+    view->setModel(&model);
+    view->hideColumn(0);
+    return true;
+}
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    QSqlQuery query;
-
-    query.exec("create table if not exists inbox (Id integer primary key autoincrement, Date text, Stuff text)");
-    inBasketModel.setTable("inbox");
-    inBasketModel.select();
-    ui->inBasketTableView->setModel(&inBasketModel);
-    ui->inBasketTableView->hideColumn(0);
-
-    query.exec("create table if not exists todo (Id integer, Date text, Stuff text)");
-    ui->todoTableView->setModel(&todoModel);
-    todoModel.setTable("todo");
-    todoModel.select();
-    ui->todoTableView->hideColumn(0);
-
-    query.exec("create table if not exists done (Id integer, Date text, Stuff text)");
-    ui->doneTableView->setModel(&doneModel);
-    doneModel.setTable("done");
-    doneModel.select();
-    ui->doneTableView->hideColumn(0);
-
-    query.exec("create table if not exists trash (Id integer, Date text, Stuff text)");
-    ui->trashTableView->setModel(&trashModel);
-    trashModel.setTable("trash");
-    trashModel.select();
-    ui->trashTableView->hideColumn(0);
+    createTable("inbox", inboxModel, ui->inboxTableView);
+    createTable("todo",  todoModel, ui->todoTableView);
+    createTable("done",  doneModel, ui->doneTableView);
+    createTable("trash", trashModel, ui->trashTableView);
 
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
     connect(ui->moveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
@@ -57,12 +46,12 @@ void MainWindow::addToInbox()
     QString s = "insert into inbox (date, Stuff) values(date('now'), '')";
     qDebug() << s;
     query.exec(s);
-    inBasketModel.select();
+    inboxModel.select();
 }
 
 void MainWindow::moveFromInboxToTodo()
 {
-    QModelIndexList selectedRows = ui->inBasketTableView->selectionModel()->selectedRows();
+    QModelIndexList selectedRows = ui->inboxTableView->selectionModel()->selectedRows();
     QSqlQuery query;
     foreach (QModelIndex index, selectedRows)
     {
@@ -75,15 +64,15 @@ void MainWindow::moveFromInboxToTodo()
         qDebug() << s;
         query.exec(s);
     }
-    inBasketModel.select();
+    inboxModel.select();
     todoModel.select();
 
-    ui->inBasketTableView->selectRow(0);
+    ui->inboxTableView->selectRow(0);
 }
 
 void MainWindow::moveFromInboxToTrash()
 {
-    QModelIndexList selectedRows = ui->inBasketTableView->selectionModel()->selectedRows();
+    QModelIndexList selectedRows = ui->inboxTableView->selectionModel()->selectedRows();
     QSqlQuery query;
     foreach (QModelIndex index, selectedRows)
     {
@@ -96,10 +85,10 @@ void MainWindow::moveFromInboxToTrash()
         qDebug() << s;
         query.exec(s);
     }
-    inBasketModel.select();
+    inboxModel.select();
     trashModel.select();
 
-    ui->inBasketTableView->selectRow(0);
+    ui->inboxTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToDone()
