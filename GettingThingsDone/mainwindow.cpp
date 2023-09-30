@@ -18,12 +18,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     createTable("inbox", inboxModel, ui->inboxTableView);
     createTable("todo",  todoModel, ui->todoTableView);
+    createTable("calendar", calendarModel, ui->calendarTableView);
     createTable("done",  doneModel, ui->doneTableView);
     createTable("trash", trashModel, ui->trashTableView);
 
+    calendarModel.setSort(1, Qt::AscendingOrder);
+    calendarModel.select();
+
     connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
+    connect(ui->inboxMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToCalendar()));
     connect(ui->inboxMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
     connect(ui->inboxMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
+    connect(ui->calendarMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToDone())); // TODO:
+    connect(ui->calendarMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToTrash()));
     connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
     connect(ui->todoMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
     connect(ui->doneMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
@@ -70,6 +77,21 @@ void MainWindow::moveFromInboxToTodo()
     ui->inboxTableView->selectRow(0);
 }
 
+void MainWindow::moveFromInboxToCalendar()
+{
+    int id = FindSelectedId(ui->inboxTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into calendar select * from inbox where id = " + QString::number(id));
+    calendarModel.select();
+
+    query.exec("delete from inbox where id = " + QString::number(id));
+    inboxModel.select();
+
+    ui->inboxTableView->selectRow(0);
+}
+
 void MainWindow::moveFromInboxToTrash()
 {
     int id = FindSelectedId(ui->inboxTableView);
@@ -83,6 +105,36 @@ void MainWindow::moveFromInboxToTrash()
     inboxModel.select();
 
     ui->inboxTableView->selectRow(0);
+}
+
+void MainWindow::moveFromCalendarToDone()
+{
+    int id = FindSelectedId(ui->calendarTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into done select * from calendar where id = " + QString::number(id));
+    doneModel.select();
+
+    query.exec("delete from calendar where id = " + QString::number(id));
+    calendarModel.select();
+
+    ui->calendarTableView->selectRow(0);
+}
+
+void MainWindow::moveFromCalendarToTrash()
+{
+    int id = FindSelectedId(ui->calendarTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into trash select * from calendar where id = " + QString::number(id));
+    trashModel.select();
+
+    query.exec("delete from calendar where id = " + QString::number(id));
+    calendarModel.select();
+
+    ui->calendarTableView->selectRow(0);
 }
 
 void MainWindow::moveFromTodoToDone()

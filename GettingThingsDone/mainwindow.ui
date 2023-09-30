@@ -69,6 +69,13 @@
                 </widget>
                </item>
                <item>
+                <widget class="QPushButton" name="inboxMoveToCalendarButton">
+                 <property name="text">
+                  <string>Move to calendar</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QPushButton" name="inboxMoveToTrashButton">
                  <property name="text">
                   <string>Move to TRASH</string>

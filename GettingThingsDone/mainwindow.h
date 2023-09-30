@@ -21,6 +21,7 @@ private:
     QSqlQuery query;
     QSqlTableModel inboxModel;
     QSqlTableModel todoModel;
+    QSqlTableModel calendarModel;
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
     bool createTable(const QString &table, QSqlTableModel& model, QTableView *view);
@@ -28,7 +29,10 @@ private:
 private slots:
     void addToInbox();
     void moveFromInboxToTodo();
+    void moveFromInboxToCalendar();
     void moveFromInboxToTrash();
+    void moveFromCalendarToDone();
+    void moveFromCalendarToTrash();
     void moveFromTodoToDone();
     void moveFromTodoToTrash();
     void moveFromDoneToTrash();
