@@ -218,7 +218,28 @@ void MainWindow::deleteAllFromTrash()
 
 void MainWindow::upButtonClicked()
 {
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
 
+    int previousId = -1;
+    for (int i = 0; i < todoModel.rowCount(); i++)
+    {
+        int id2 = todoModel.data(todoModel.index(i, 0), Qt::DisplayRole).toInt();
+        if (id2 == id)
+        {
+            if (i == 0)
+                return;
+            previousId = todoModel.data(todoModel.index(i-1, 0), Qt::DisplayRole).toInt();
+            break;
+        }
+    }
+
+    query.exec("update todo set id=-1 where id=" + QString::number(id));
+    query.exec("update todo set id=" + QString::number(id) + " where id=" + QString::number(previousId));
+    query.exec("update todo set id=" + QString::number(previousId) + " where id=-1");
+
+    todoModel.select();
 }
 
 void MainWindow::downButtonClicked()
