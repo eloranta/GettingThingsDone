@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->calendarMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToDone())); // TODO:
     connect(ui->calendarMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToTrash()));
     connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
+    connect(ui->todoMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToCalendar()));
     connect(ui->todoMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
     connect(ui->doneMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromDoneToTrash()));
     connect(ui->trashMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
@@ -152,6 +153,21 @@ void MainWindow::moveFromTodoToDone()
     ui->todoTableView->selectRow(0);
 }
 
+void MainWindow::moveFromTodoToCalendar()
+{
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
+
+    query.exec("insert into calendar select * from todo where id = " + QString::number(id));
+    calendarModel.select();
+
+    query.exec("delete from todo where id = " + QString::number(id));
+    todoModel.select();
+
+    ui->todoTableView->selectRow(0);
+}
+
 void MainWindow::moveFromTodoToTrash()
 {
     int id = FindSelectedId(ui->todoTableView);
@@ -165,7 +181,6 @@ void MainWindow::moveFromTodoToTrash()
     todoModel.select();
 
     ui->todoTableView->selectRow(0);
-
 }
 
 void MainWindow::moveFromDoneToTrash()

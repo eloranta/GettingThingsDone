@@ -131,6 +131,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="todoMoveToCalendarButton">
+              <property name="text">
+               <string>Move to Calendar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="todoMoveToTrashButton">
               <property name="text">
                <string>Move to TRASH</string>

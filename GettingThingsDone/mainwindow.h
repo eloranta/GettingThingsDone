@@ -34,6 +34,7 @@ private slots:
     void moveFromCalendarToDone();
     void moveFromCalendarToTrash();
     void moveFromTodoToDone();
+    void moveFromTodoToCalendar();
     void moveFromTodoToTrash();
     void moveFromDoneToTrash();
     void moveFromTrashToTodo();
