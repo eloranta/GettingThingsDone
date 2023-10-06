@@ -75,11 +75,9 @@ void MainWindow::moveFromInboxToTodo()
     if (id == -1)
         return;
 
-    query.exec("insert into todo select * from inbox where id = " + QString::number(id));
-    todoModel.select();
-
-    query.exec("delete from inbox where id = " + QString::number(id));
+    query.exec("update inbox set view = 2 where id = " + QString::number(id));
     inboxModel.select();
+    todoModel.select();
 
     ui->inboxTableView->selectRow(0);
 }
