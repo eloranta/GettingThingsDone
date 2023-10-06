@@ -17,10 +17,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     createTable("inbox", inboxModel, ui->inboxTableView);
-    createTable("todo",  todoModel, ui->todoTableView);
-    createTable("calendar", calendarModel, ui->calendarTableView);
-    createTable("done",  doneModel, ui->doneTableView);
-    createTable("trash", trashModel, ui->trashTableView);
+    createTable("inbox", todoModel, ui->todoTableView);
+    createTable("inbox", calendarModel, ui->calendarTableView);
+    createTable("inbox", doneModel, ui->doneTableView);
+    createTable("inbox", trashModel, ui->trashTableView);
 
     calendarModel.setSort(1, Qt::AscendingOrder);
     calendarModel.select();
