@@ -4,7 +4,7 @@
 bool MainWindow::createTable(const QString &table, QSqlTableModel& model, QTableView *view)
 {
     QSqlQuery query;
-    if (!query.exec("create table if not exists " + table + " (Id integer primary key autoincrement, Date text, Stuff text)"))
+    if (!query.exec("create table if not exists " + table + " (Id integer primary key autoincrement, view integer, Date text, Stuff text)"))
        return false;
     model.setTable(table);
     model.select();
@@ -21,6 +21,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createTable("inbox", calendarModel, ui->calendarTableView);
     createTable("inbox", doneModel, ui->doneTableView);
     createTable("inbox", trashModel, ui->trashTableView);
+
+    inboxModel.setFilter("view=1");
+    todoModel.setFilter("view=2");
+    calendarModel.setFilter("view=3");
+    doneModel.setFilter("view=4");
+    trashModel.setFilter("view=5");
 
     calendarModel.setSort(1, Qt::AscendingOrder);
     calendarModel.select();
@@ -49,7 +55,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::addToInbox()
 {
-    query.exec("insert into inbox (date, Stuff) values(date('now'), '')");
+    query.exec("insert into inbox (view, date, Stuff) values(1, date('now'), '')");
     inboxModel.select();
 }
 
