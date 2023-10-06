@@ -114,11 +114,9 @@ void MainWindow::moveFromCalendarToDone()
     if (id == -1)
         return;
 
-    query.exec("insert into done select * from calendar where id = " + QString::number(id));
-    doneModel.select();
-
-    query.exec("delete from calendar where id = " + QString::number(id));
+    query.exec("update inbox set view = 4 where id = " + QString::number(id));
     calendarModel.select();
+    doneModel.select();
 
     ui->calendarTableView->selectRow(0);
 }
@@ -129,11 +127,9 @@ void MainWindow::moveFromCalendarToTrash()
     if (id == -1)
         return;
 
-    query.exec("insert into trash select * from calendar where id = " + QString::number(id));
-    trashModel.select();
-
-    query.exec("delete from calendar where id = " + QString::number(id));
+    query.exec("update inbox set view = 5 where id = " + QString::number(id));
     calendarModel.select();
+    trashModel.select();
 
     ui->calendarTableView->selectRow(0);
 }
@@ -144,11 +140,9 @@ void MainWindow::moveFromTodoToDone()
     if (id == -1)
         return;
 
-    query.exec("insert into done select * from todo where id = " + QString::number(id));
-    doneModel.select();
-
-    query.exec("delete from todo where id = " + QString::number(id));
+    query.exec("update inbox set view = 4 where id = " + QString::number(id));
     todoModel.select();
+    doneModel.select();
 
     ui->todoTableView->selectRow(0);
 }
@@ -159,11 +153,9 @@ void MainWindow::moveFromTodoToCalendar()
     if (id == -1)
         return;
 
-    query.exec("insert into calendar select * from todo where id = " + QString::number(id));
-    calendarModel.select();
-
-    query.exec("delete from todo where id = " + QString::number(id));
+    query.exec("update inbox set view = 3 where id = " + QString::number(id));
     todoModel.select();
+    calendarModel.select();
 
     ui->todoTableView->selectRow(0);
 }
@@ -174,11 +166,9 @@ void MainWindow::moveFromTodoToTrash()
     if (id == -1)
         return;
 
-    query.exec("insert into trash select * from todo where id = " + QString::number(id));
-    trashModel.select();
-
-    query.exec("delete from todo where id = " + QString::number(id));
+    query.exec("update inbox set view = 5 where id = " + QString::number(id));
     todoModel.select();
+    trashModel.select();
 
     ui->todoTableView->selectRow(0);
 }
@@ -189,11 +179,9 @@ void MainWindow::moveFromDoneToTrash()
     if (id == -1)
         return;
 
-    query.exec("insert into trash select * from done where id = " + QString::number(id));
-    trashModel.select();
-
-    query.exec("delete from done where id = " + QString::number(id));
+    query.exec("update inbox set view = 5 where id = " + QString::number(id));
     doneModel.select();
+    trashModel.select();
 
     ui->doneTableView->selectRow(0);
 }
@@ -204,11 +192,9 @@ void MainWindow::moveFromTrashToTodo()
     if (id == -1)
         return;
 
-    query.exec("insert into todo select * from trash where id = " + QString::number(id));
-    todoModel.select();
-
-    query.exec("delete from trash where id = " + QString::number(id));
+    query.exec("update inbox set view = 2 where id = " + QString::number(id));
     trashModel.select();
+    todoModel.select();
 
     ui->trashTableView->selectRow(0);
 }
@@ -219,7 +205,7 @@ void MainWindow::deleteFromTrash()
     if (id == -1)
         return;
 
-    query.exec("delete from trash where id = " + QString::number(id));
+    query.exec("delete from inbox where id = " + QString::number(id));
     trashModel.select();
 
     ui->trashTableView->selectRow(0);
