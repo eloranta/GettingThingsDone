@@ -88,11 +88,9 @@ void MainWindow::moveFromInboxToCalendar()
     if (id == -1)
         return;
 
-    query.exec("insert into calendar select * from inbox where id = " + QString::number(id));
-    calendarModel.select();
-
-    query.exec("delete from inbox where id = " + QString::number(id));
+    query.exec("update inbox set view = 3 where id = " + QString::number(id));
     inboxModel.select();
+    calendarModel.select();
 
     ui->inboxTableView->selectRow(0);
 }
