@@ -101,11 +101,9 @@ void MainWindow::moveFromInboxToTrash()
     if (id == -1)
         return;
 
-    query.exec("insert into trash select * from inbox where id = " + QString::number(id));
-    trashModel.select();
-
-    query.exec("delete from inbox where id = " + QString::number(id));
+    query.exec("update inbox set view = 5 where id = " + QString::number(id));
     inboxModel.select();
+    trashModel.select();
 
     ui->inboxTableView->selectRow(0);
 }
