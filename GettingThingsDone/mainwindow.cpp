@@ -3,7 +3,6 @@
 
 bool MainWindow::createTable(const QString &table, QSqlTableModel& model, QTableView *view)
 {
-    QSqlQuery query;
     if (!query.exec("create table if not exists " + table + " (Id integer primary key autoincrement, view integer, Date text, Stuff text)"))
        return false;
     model.setTable(table);
