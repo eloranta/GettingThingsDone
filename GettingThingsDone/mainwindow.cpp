@@ -212,7 +212,7 @@ void MainWindow::deleteFromTrash()
 
 void MainWindow::deleteAllFromTrash()
 {
-    query.exec("delete from trash");
+    query.exec("delete from inbox where view = 5");
     trashModel.select();
 }
 
