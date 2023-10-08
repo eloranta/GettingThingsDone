@@ -24,7 +24,7 @@ private:
     QSqlTableModel calendarModel;
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
-    bool createTable(const QString &table, QSqlTableModel& model, QTableView *view);
+    bool createTable(QSqlTableModel& model, QTableView *view);
     int FindSelectedId(QTableView *view);
 private slots:
     void addToInbox();

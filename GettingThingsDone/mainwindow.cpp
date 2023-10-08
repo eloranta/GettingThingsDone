@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-bool MainWindow::createTable(const QString &table, QSqlTableModel& model, QTableView *view)
+bool MainWindow::createTable(QSqlTableModel& model, QTableView *view)
 {
-    if (!query.exec("create table if not exists " + table + " (Id integer primary key autoincrement, view integer, Date text, Stuff text)"))
+    if (!query.exec("create table if not exists table1 (Id integer primary key autoincrement, view integer, Date text, Stuff text)"))
        return false;
-    model.setTable(table);
+    model.setTable("table1");
     model.select();
     view->setModel(&model);
     return true;
@@ -15,11 +15,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    createTable("inbox", inboxModel, ui->inboxTableView);
-    createTable("inbox", todoModel, ui->todoTableView);
-    createTable("inbox", calendarModel, ui->calendarTableView);
-    createTable("inbox", doneModel, ui->doneTableView);
-    createTable("inbox", trashModel, ui->trashTableView);
+    createTable(inboxModel, ui->inboxTableView);
+    createTable(todoModel, ui->todoTableView);
+    createTable(calendarModel, ui->calendarTableView);
+    createTable(doneModel, ui->doneTableView);
+    createTable(trashModel, ui->trashTableView);
 
     inboxModel.setFilter("view=1");
     todoModel.setFilter("view=2");
@@ -54,7 +54,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::addToInbox()
 {
-    query.exec("insert into inbox (view, date, Stuff) values(1, date('now'), '')");
+    query.exec("insert into table1 (view, date, Stuff) values(1, date('now'), '')");
     inboxModel.select();
 }
 
@@ -74,7 +74,7 @@ void MainWindow::moveFromInboxToTodo()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 2 where id = " + QString::number(id));
+    query.exec("update table1 set view = 2 where id = " + QString::number(id));
     inboxModel.select();
     todoModel.select();
 
@@ -87,7 +87,7 @@ void MainWindow::moveFromInboxToCalendar()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 3 where id = " + QString::number(id));
+    query.exec("update table1 set view = 3 where id = " + QString::number(id));
     inboxModel.select();
     calendarModel.select();
 
@@ -100,7 +100,7 @@ void MainWindow::moveFromInboxToTrash()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 5 where id = " + QString::number(id));
+    query.exec("update table1 set view = 5 where id = " + QString::number(id));
     inboxModel.select();
     trashModel.select();
 
@@ -113,7 +113,7 @@ void MainWindow::moveFromCalendarToDone()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 4 where id = " + QString::number(id));
+    query.exec("update table1 set view = 4 where id = " + QString::number(id));
     calendarModel.select();
     doneModel.select();
 
@@ -126,7 +126,7 @@ void MainWindow::moveFromCalendarToTrash()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 5 where id = " + QString::number(id));
+    query.exec("update table1 set view = 5 where id = " + QString::number(id));
     calendarModel.select();
     trashModel.select();
 
@@ -139,7 +139,7 @@ void MainWindow::moveFromTodoToDone()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 4 where id = " + QString::number(id));
+    query.exec("update table1 set view = 4 where id = " + QString::number(id));
     todoModel.select();
     doneModel.select();
 
@@ -152,7 +152,7 @@ void MainWindow::moveFromTodoToCalendar()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 3 where id = " + QString::number(id));
+    query.exec("update table1 set view = 3 where id = " + QString::number(id));
     todoModel.select();
     calendarModel.select();
 
@@ -165,7 +165,7 @@ void MainWindow::moveFromTodoToTrash()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 5 where id = " + QString::number(id));
+    query.exec("update table1 set view = 5 where id = " + QString::number(id));
     todoModel.select();
     trashModel.select();
 
@@ -178,7 +178,7 @@ void MainWindow::moveFromDoneToTrash()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 5 where id = " + QString::number(id));
+    query.exec("update table1 set view = 5 where id = " + QString::number(id));
     doneModel.select();
     trashModel.select();
 
@@ -191,7 +191,7 @@ void MainWindow::moveFromTrashToTodo()
     if (id == -1)
         return;
 
-    query.exec("update inbox set view = 2 where id = " + QString::number(id));
+    query.exec("update table1 set view = 2 where id = " + QString::number(id));
     trashModel.select();
     todoModel.select();
 
@@ -204,7 +204,7 @@ void MainWindow::deleteFromTrash()
     if (id == -1)
         return;
 
-    query.exec("delete from inbox where id = " + QString::number(id));
+    query.exec("delete from table1 where id = " + QString::number(id));
     trashModel.select();
 
     ui->trashTableView->selectRow(0);
@@ -212,7 +212,7 @@ void MainWindow::deleteFromTrash()
 
 void MainWindow::deleteAllFromTrash()
 {
-    query.exec("delete from inbox where view = 5");
+    query.exec("delete from table1 where view = 5");
     trashModel.select();
 }
 
