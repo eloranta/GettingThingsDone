@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     doneModel.setFilter("view=4");
     trashModel.setFilter("view=5");
 
-    calendarModel.setSort(1, Qt::AscendingOrder);
+    calendarModel.setSort(2, Qt::AscendingOrder);
     calendarModel.select();
 
     connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
