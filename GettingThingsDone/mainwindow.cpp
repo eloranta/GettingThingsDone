@@ -3,7 +3,7 @@
 
 bool MainWindow::createTable(QSqlTableModel& model, QTableView *view)
 {
-    if (!query.exec("create table if not exists table1 (Id integer primary key autoincrement, view integer, Date text, Stuff text)"))
+    if (!query.exec("create table if not exists table1 (Id integer primary key autoincrement, view integer, priority integer, Date text, Stuff text)"))
        return false;
     model.setTable("table1");
     model.select();
@@ -54,7 +54,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::addToInbox()
 {
-    query.exec("insert into table1 (view, date, Stuff) values(1, date('now'), '')");
+    query.exec("insert into table1 (view, priority, date, Stuff) values(1, 1, date('now'), '')");
     inboxModel.select();
 }
 
