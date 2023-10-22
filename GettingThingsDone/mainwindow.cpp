@@ -220,12 +220,20 @@ void MainWindow::deleteAllFromTrash()
     trashModel.select();
 }
 
-void MainWindow::topButtonClicked()
+int MainWindow::GetMaxPriority()
 {
+    query.exec("select max(priority) from table1");
+    if (query.next())
+        return query.value(0).toInt();
+    return -1;
+}
+
+void MainWindow::topButtonClicked()
+    {
     int id = FindSelectedId(ui->todoTableView);
     if (id == -1)
         return;
-    static int max_priority = 1;
+    int max_priority = GetMaxPriority();
     max_priority++;
     query.exec("update table1 set priority = " + QString::number(max_priority) + " where id = " + QString::number(id));
     todoModel.select();

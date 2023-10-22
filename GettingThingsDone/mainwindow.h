@@ -44,6 +44,7 @@ private slots:
     void upButtonClicked();
     void downButtonClicked();
     void bottomButtonClicked();
+    int GetMaxPriority();
 };
 
 #endif
