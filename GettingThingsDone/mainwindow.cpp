@@ -27,8 +27,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     doneModel.setFilter("view=4");
     trashModel.setFilter("view=5");
 
-    calendarModel.setSort(2, Qt::AscendingOrder);
+    calendarModel.setSort(3, Qt::AscendingOrder);
     calendarModel.select();
+    todoModel.setSort(2, Qt::DescendingOrder);
+    todoModel.select();
 
     connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
     connect(ui->inboxMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToCalendar()));
@@ -43,8 +45,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->trashMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromTrashToTodo()));
     connect(ui->trashDeleteButton, SIGNAL(clicked()), this, SLOT(deleteFromTrash()));
     connect(ui->trashDeleteAll, SIGNAL(clicked()), this, SLOT(deleteAllFromTrash()));
+    connect(ui->topButton, SIGNAL(clicked()), this, SLOT(topButtonClicked()));
     connect(ui->upButton, SIGNAL(clicked()), this, SLOT(upButtonClicked()));
     connect(ui->downButton, SIGNAL(clicked()), this, SLOT(downButtonClicked()));
+    connect(ui->bottomButton, SIGNAL(clicked()), this, SLOT(bottomButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -216,12 +220,28 @@ void MainWindow::deleteAllFromTrash()
     trashModel.select();
 }
 
+void MainWindow::topButtonClicked()
+{
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
+    static int max_priority = 1;
+    max_priority++;
+    query.exec("update table1 set priority = " + QString::number(max_priority) + " where id = " + QString::number(id));
+    todoModel.select();
+}
+
 void MainWindow::upButtonClicked()
 {
 
 }
 
 void MainWindow::downButtonClicked()
+{
+
+}
+
+void MainWindow::bottomButtonClicked()
 {
 
 }
