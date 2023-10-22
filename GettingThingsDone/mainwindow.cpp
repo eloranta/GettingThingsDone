@@ -228,8 +228,16 @@ int MainWindow::GetMaxPriority()
     return -1;
 }
 
+int MainWindow::GetMinPriority()
+{
+    query.exec("select min(priority) from table1");
+    if (query.next())
+        return query.value(0).toInt();
+    return -1;
+}
+
 void MainWindow::topButtonClicked()
-    {
+{
     int id = FindSelectedId(ui->todoTableView);
     if (id == -1)
         return;
@@ -251,5 +259,11 @@ void MainWindow::downButtonClicked()
 
 void MainWindow::bottomButtonClicked()
 {
-
+    int id = FindSelectedId(ui->todoTableView);
+    if (id == -1)
+        return;
+    int min_priority = GetMinPriority();
+    min_priority--;
+    query.exec("update table1 set priority = " + QString::number(min_priority) + " where id = " + QString::number(id));
+    todoModel.select();
 }
