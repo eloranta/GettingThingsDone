@@ -40,8 +40,10 @@ private slots:
     void moveFromTrashToTodo();
     void deleteFromTrash();
     void deleteAllFromTrash();
+    void topButtonClicked();
     void upButtonClicked();
     void downButtonClicked();
+    void bottomButtonClicked();
 };
 
 #endif
