@@ -145,6 +145,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="topButton">
+              <property name="text">
+               <string>Top</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="upButton">
               <property name="text">
                <string>Up</string>
@@ -155,6 +162,13 @@
              <widget class="QPushButton" name="downButton">
               <property name="text">
                <string>Down</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bottomButton">
+              <property name="text">
+               <string>Bottom</string>
               </property>
              </widget>
             </item>
