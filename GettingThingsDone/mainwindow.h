@@ -30,9 +30,6 @@ private slots:
     void addToTodo();
     void addToCalendar();
     void addToInbox();
-    void moveFromInboxToTodo();
-    void moveFromInboxToCalendar();
-    void moveFromInboxToTrash();
     void moveFromCalendarToDone();
     void moveFromCalendarToTrash();
     void moveFromTodoToDone();

@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    createTable(inboxModel, ui->inboxTableView);
     createTable(todoModel, ui->todoTableView);
     createTable(calendarModel, ui->calendarTableView);
     createTable(doneModel, ui->doneTableView);
@@ -34,10 +33,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->todoAddButton, SIGNAL(clicked()), this, SLOT(addToTodo()));
     connect(ui->calendarAddButton, SIGNAL(clicked()), this, SLOT(addToCalendar()));
-    connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
-    connect(ui->inboxMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToCalendar()));
-    connect(ui->inboxMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
-    connect(ui->inboxMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTrash()));
     connect(ui->calendarMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToDone())); // TODO:
     connect(ui->calendarMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToTrash()));
     connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
@@ -72,45 +67,6 @@ int MainWindow::FindSelectedId(QTableView *view)
     QModelIndex index = *selectedRows.begin();
     const QAbstractItemModel *model = index.model();
     return model->data(model->index(index.row(), 0), Qt::DisplayRole).toInt();
-}
-
-void MainWindow::moveFromInboxToTodo()
-{
-    int id = FindSelectedId(ui->inboxTableView);
-    if (id == -1)
-        return;
-
-    query.exec("update table1 set view = 2 where id = " + QString::number(id));
-    inboxModel.select();
-    todoModel.select();
-
-    ui->inboxTableView->selectRow(0);
-}
-
-void MainWindow::moveFromInboxToCalendar()
-{
-    int id = FindSelectedId(ui->inboxTableView);
-    if (id == -1)
-        return;
-
-    query.exec("update table1 set view = 3 where id = " + QString::number(id));
-    inboxModel.select();
-    calendarModel.select();
-
-    ui->inboxTableView->selectRow(0);
-}
-
-void MainWindow::moveFromInboxToTrash()
-{
-    int id = FindSelectedId(ui->inboxTableView);
-    if (id == -1)
-        return;
-
-    query.exec("update table1 set view = 5 where id = " + QString::number(id));
-    inboxModel.select();
-    trashModel.select();
-
-    ui->inboxTableView->selectRow(0);
 }
 
 void MainWindow::addToTodo()
