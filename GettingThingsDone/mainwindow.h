@@ -27,6 +27,8 @@ private:
     bool createTable(QSqlTableModel& model, QTableView *view);
     int FindSelectedId(QTableView *view);
 private slots:
+    void addToTodo();
+    void addToCalendar();
     void addToInbox();
     void moveFromInboxToTodo();
     void moveFromInboxToCalendar();

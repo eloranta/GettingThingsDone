@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     todoModel.setSort(2, Qt::DescendingOrder);
     todoModel.select();
 
+    connect(ui->todoAddButton, SIGNAL(clicked()), this, SLOT(addToTodo()));
+    connect(ui->calendarAddButton, SIGNAL(clicked()), this, SLOT(addToCalendar()));
     connect(ui->inboxAddButton, SIGNAL(clicked()), this, SLOT(addToInbox()));
     connect(ui->inboxMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToCalendar()));
     connect(ui->inboxMoveToTodoButton, SIGNAL(clicked()), this, SLOT(moveFromInboxToTodo()));
@@ -109,6 +111,20 @@ void MainWindow::moveFromInboxToTrash()
     trashModel.select();
 
     ui->inboxTableView->selectRow(0);
+}
+
+void MainWindow::addToTodo()
+{
+    query.exec("insert into table1 (view, priority, date, Stuff) values(2, " + QString::number(GetMaxPriority() + 1) + ", date('now'), '')");
+    todoModel.select();
+    ui->todoTableView->selectRow(0);
+}
+
+void MainWindow::addToCalendar()
+{
+    query.exec("insert into table1 (view, priority, date, Stuff) values(3, " + QString::number(GetMaxPriority() + 1) + ", date('now'), '')");
+    calendarModel.select();
+    ui->calendarTableView->selectRow(0);
 }
 
 void MainWindow::moveFromCalendarToDone()

@@ -124,6 +124,13 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
+             <widget class="QPushButton" name="todoAddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="todoMoveToDoneButton">
               <property name="text">
                <string>Move to DONE</string>
@@ -222,6 +229,13 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QPushButton" name="calendarAddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QPushButton" name="calendarMoveToDoneButton">
               <property name="text">
