@@ -17,12 +17,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     createTable(todoModel, ui->todoTableView);
     createTable(calendarModel, ui->calendarTableView);
+    createTable(calendarModel, ui->calendarTableView);
     createTable(doneModel, ui->doneTableView);
+    createTable(someDayModel, ui->someDayTableView);
     createTable(trashModel, ui->trashTableView);
 
     inboxModel.setFilter("view=1");
     todoModel.setFilter("view=2");
     calendarModel.setFilter("view=3");
+    someDayModel.setFilter("view=6");
     doneModel.setFilter("view=4");
     trashModel.setFilter("view=5");
 
@@ -33,8 +36,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->todoAddButton, SIGNAL(clicked()), this, SLOT(addToTodo()));
     connect(ui->calendarAddButton, SIGNAL(clicked()), this, SLOT(addToCalendar()));
-    connect(ui->calendarMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToDone())); // TODO:
+    connect(ui->calendarMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToDone()));
     connect(ui->calendarMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToTrash()));
+    connect(ui->someDayAddButton, SIGNAL(clicked()), this, SLOT(addToSomeDay()));
+    connect(ui->someDayMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromSomeDayToDone()));
     connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
     connect(ui->todoMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToCalendar()));
     connect(ui->todoMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
@@ -238,4 +243,25 @@ void MainWindow::bottomButtonClicked()
     min_priority--;
     query.exec("update table1 set priority = " + QString::number(min_priority) + " where id = " + QString::number(id));
     todoModel.select();
+}
+
+
+void MainWindow::moveFromSomeDayToDone()
+{
+    int id = FindSelectedId(ui->someDayTableView);
+    if (id == -1)
+        return;
+
+    query.exec("update table1 set view = 4 where id = " + QString::number(id));
+    someDayModel.select();
+    doneModel.select();
+
+    ui->someDayTableView->selectRow(0);
+}
+
+void MainWindow::addToSomeDay()
+{
+    query.exec("insert into table1 (view, priority, date, Stuff) values(6, 1, date('now'), '')");
+    someDayModel.select();
+    ui->someDayTableView->selectRow(0);
 }

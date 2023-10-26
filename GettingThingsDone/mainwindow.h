@@ -22,6 +22,7 @@ private:
     QSqlTableModel inboxModel;
     QSqlTableModel todoModel;
     QSqlTableModel calendarModel;
+    QSqlTableModel someDayModel;
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
     bool createTable(QSqlTableModel& model, QTableView *view);
@@ -29,6 +30,7 @@ private:
 private slots:
     void addToTodo();
     void addToCalendar();
+    void addToSomeDay();
     void addToInbox();
     void moveFromCalendarToDone();
     void moveFromCalendarToTrash();
@@ -37,6 +39,7 @@ private slots:
     void moveFromTodoToTrash();
     void moveFromDoneToTrash();
     void moveFromTrashToTodo();
+    void moveFromSomeDayToDone();
     void deleteFromTrash();
     void deleteAllFromTrash();
     void topButtonClicked();
