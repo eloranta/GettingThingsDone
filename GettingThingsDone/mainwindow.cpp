@@ -78,7 +78,7 @@ void MainWindow::addToTodo()
 
 void MainWindow::addToCalendar()
 {
-    query.exec("insert into table1 (view, priority, date, Stuff) values(3, " + QString::number(GetMaxPriority() + 1) + ", date('now'), '')");
+    query.exec("insert into table1 (view, priority, date, Stuff) values(3, 1, date('now'), '')");
     calendarModel.select();
     ui->calendarTableView->selectRow(0);
 }
