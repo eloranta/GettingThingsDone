@@ -40,6 +40,7 @@ private slots:
     void moveFromDoneToTrash();
     void moveFromTrashToTodo();
     void moveFromSomeDayToDone();
+    void moveFromSomeDayToTrash();
     void deleteFromTrash();
     void deleteAllFromTrash();
     void topButtonClicked();

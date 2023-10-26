@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->calendarMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromCalendarToTrash()));
     connect(ui->someDayAddButton, SIGNAL(clicked()), this, SLOT(addToSomeDay()));
     connect(ui->someDayMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromSomeDayToDone()));
+    connect(ui->someDayMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromSomeDayToTrash()));
     connect(ui->todoMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToDone()));
     connect(ui->todoMoveToCalendarButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToCalendar()));
     connect(ui->todoMoveToTrashButton, SIGNAL(clicked()), this, SLOT(moveFromTodoToTrash()));
@@ -245,6 +246,12 @@ void MainWindow::bottomButtonClicked()
     todoModel.select();
 }
 
+void MainWindow::addToSomeDay()
+{
+    query.exec("insert into table1 (view, priority, date, Stuff) values(6, 1, date('now'), '')");
+    someDayModel.select();
+    ui->someDayTableView->selectRow(0);
+}
 
 void MainWindow::moveFromSomeDayToDone()
 {
@@ -259,9 +266,15 @@ void MainWindow::moveFromSomeDayToDone()
     ui->someDayTableView->selectRow(0);
 }
 
-void MainWindow::addToSomeDay()
+void MainWindow::moveFromSomeDayToTrash()
 {
-    query.exec("insert into table1 (view, priority, date, Stuff) values(6, 1, date('now'), '')");
+    int id = FindSelectedId(ui->someDayTableView);
+    if (id == -1)
+        return;
+
+    query.exec("update table1 set view = 5 where id = " + QString::number(id));
     someDayModel.select();
+    trashModel.select();
+
     ui->someDayTableView->selectRow(0);
 }
