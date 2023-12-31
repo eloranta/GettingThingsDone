@@ -22,6 +22,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createTable(someDayModel, ui->someDayTableView);
     createTable(trashModel, ui->trashTableView);
 
+    ui->todoTableView->setColumnWidth(0, 20);
+    ui->todoTableView->setColumnWidth(1, 20);
+    ui->todoTableView->setColumnWidth(2, 20);
+    ui->todoTableView->setColumnWidth(3, 75);
+
     inboxModel.setFilter("view=1");
     todoModel.setFilter("view=2");
     calendarModel.setFilter("view=3");
