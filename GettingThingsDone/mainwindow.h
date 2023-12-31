@@ -25,6 +25,7 @@ private:
     QSqlTableModel someDayModel;
     QSqlTableModel doneModel;
     QSqlTableModel trashModel;
+    QSqlTableModel projectModel;
     bool createTable(QSqlTableModel& model, QTableView *view);
     int FindSelectedId(QTableView *view);
 private slots:
@@ -32,6 +33,7 @@ private slots:
     void addToCalendar();
     void addToSomeDay();
     void addToInbox();
+    void addToProject();
     void moveFromCalendarToDone();
     void moveFromCalendarToTrash();
     void moveFromTodoToDone();

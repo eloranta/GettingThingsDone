@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createTable(doneModel, ui->doneTableView);
     createTable(someDayModel, ui->someDayTableView);
     createTable(trashModel, ui->trashTableView);
+    createTable(projectModel, ui->projectTableView);
 
     ui->todoTableView->setColumnWidth(0, 20);
     ui->todoTableView->setColumnWidth(1, 20);
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     someDayModel.setFilter("view=6");
     doneModel.setFilter("view=4");
     trashModel.setFilter("view=5");
+    projectModel.setFilter("view=7");
 
     calendarModel.setSort(3, Qt::AscendingOrder);
     calendarModel.select();
@@ -57,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->upButton, SIGNAL(clicked()), this, SLOT(upButtonClicked()));
     connect(ui->downButton, SIGNAL(clicked()), this, SLOT(downButtonClicked()));
     connect(ui->bottomButton, SIGNAL(clicked()), this, SLOT(bottomButtonClicked()));
+    connect(ui->projectAddButton, SIGNAL(clicked()), this, SLOT(addToProject()));
 }
 
 MainWindow::~MainWindow()
@@ -283,3 +286,10 @@ void MainWindow::moveFromSomeDayToTrash()
 
     ui->someDayTableView->selectRow(0);
 }
+
+void MainWindow::addToProject()
+{
+    query.exec("insert into table1 (view, priority, date, Stuff) values(7, 1, date('now'), '')");
+    projectModel.select();
+}
+
