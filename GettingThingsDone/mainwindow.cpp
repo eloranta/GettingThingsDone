@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->downButton, SIGNAL(clicked()), this, SLOT(downButtonClicked()));
     connect(ui->bottomButton, SIGNAL(clicked()), this, SLOT(bottomButtonClicked()));
     connect(ui->projectAddButton, SIGNAL(clicked()), this, SLOT(addToProject()));
+    connect(ui->projectMoveToDoneButton, SIGNAL(clicked()), this, SLOT(moveFromProjectToDone()));
 }
 
 MainWindow::~MainWindow()
@@ -105,6 +106,19 @@ void MainWindow::moveFromCalendarToDone()
 
     query.exec("update table1 set view = 4 where id = " + QString::number(id));
     calendarModel.select();
+    doneModel.select();
+
+    ui->calendarTableView->selectRow(0);
+}
+
+void MainWindow::moveFromProjectToDone()
+{
+    int id = FindSelectedId(ui->projectTableView);
+    if (id == -1)
+        return;
+
+    query.exec("update table1 set view = 4 where id = " + QString::number(id));
+    projectModel.select();
     doneModel.select();
 
     ui->calendarTableView->selectRow(0);
